@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fafafa;
+  --foreground: #1a1a2e;
+
+  /* Primary — brand blue from logo */
+  --cav-primary: #2c5ea8;
+  --cav-primary-light: #3a71c1;
+  --cav-primary-dark: #1e4578;
+  --cav-primary-50: #edf2fb;
+  --cav-primary-100: #d8e4f5;
+
+  /* Accent — brand red from logo */
+  --cav-accent: #c0392b;
+  --cav-accent-light: #e74c3c;
+
+  /* Warm — gold/yellow from logo */
+  --cav-warm: #d4a017;
+  --cav-warm-light: #f0c75e;
+
+  /* Green — from logo */
+  --cav-green: #3a7d44;
+
+  /* Neutrals */
+  --cav-gray-50: #fafafa;
+  --cav-gray-100: #f3f4f6;
+  --cav-gray-200: #e5e7eb;
+  --cav-gray-300: #d1d5db;
+  --cav-gray-400: #9ca3af;
+  --cav-gray-500: #6b7280;
+  --cav-gray-600: #4b5563;
+  --cav-gray-700: #374151;
+  --cav-gray-800: #1f2937;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-cav-primary: var(--cav-primary);
+  --color-cav-primary-light: var(--cav-primary-light);
+  --color-cav-primary-dark: var(--cav-primary-dark);
+  --color-cav-primary-50: var(--cav-primary-50);
+  --color-cav-primary-100: var(--cav-primary-100);
+
+  --color-cav-accent: var(--cav-accent);
+  --color-cav-accent-light: var(--cav-accent-light);
+
+  --color-cav-warm: var(--cav-warm);
+  --color-cav-warm-light: var(--cav-warm-light);
+
+  --color-cav-green: var(--cav-green);
+
+  --color-cav-gray-50: var(--cav-gray-50);
+  --color-cav-gray-100: var(--cav-gray-100);
+  --color-cav-gray-200: var(--cav-gray-200);
+  --color-cav-gray-300: var(--cav-gray-300);
+  --color-cav-gray-400: var(--cav-gray-400);
+  --color-cav-gray-500: var(--cav-gray-500);
+  --color-cav-gray-600: var(--cav-gray-600);
+  --color-cav-gray-700: var(--cav-gray-700);
+  --color-cav-gray-800: var(--cav-gray-800);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
