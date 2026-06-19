@@ -1,5 +1,13 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Alta Vista Hub
+
+**Alta Vista Hub lives at `/educador`.** The root route (`/`) redirects there, so it
+is the front door of the project and the path to use for the demo.
+
+The older `/funcionarios` area is **legacy** and should not be used for the new
+demo. It remains in the codebase for now but is not part of Alta Vista Hub.
+
 ## Getting Started
 
 First, run the development server:

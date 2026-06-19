@@ -1,6 +1,10 @@
 @import "tailwindcss";
 
+/* Class-based dark mode: `dark:` utilities apply when <html class="dark">. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
+  color-scheme: light;
   --background: #fafafa;
   --foreground: #1a1a2e;
 
@@ -22,6 +26,26 @@
   /* Green — from logo */
   --cav-green: #3a7d44;
 
+  /* ── Portal do Educador — official brand palette (from logo) ── */
+  --brand-blue: #1e4ea8;
+  --brand-blue-dark: #18407f;
+  --brand-blue-50: #eef3fb;
+  --brand-blue-100: #dbe6f6;
+  --brand-yellow: #f4b63f;
+  --brand-yellow-50: #fef7e9;
+  --brand-red: #d83a3a;
+  --brand-red-50: #fcebeb;
+  --brand-green: #5fa43a;
+  --brand-green-50: #eef6e9;
+  /* readable "ink" tints of the brand colors (good contrast on surfaces) */
+  --brand-amber: #b07d12;
+  --brand-blue-ink: #1e4ea8;
+  --brand-red-ink: #c52f2f;
+  --brand-green-ink: #4d8b2c;
+  --surface: #ffffff;
+  --surface-2: #f4f6f9;
+  --border: #eaeaea;
+
   /* Neutrals */
   --cav-gray-50: #fafafa;
   --cav-gray-100: #f3f4f6;
@@ -32,6 +56,43 @@
   --cav-gray-600: #4b5563;
   --cav-gray-700: #374151;
   --cav-gray-800: #1f2937;
+}
+
+/* ── Dark theme — elegant deep blue-gray (not pure black) ── */
+.dark {
+  color-scheme: dark;
+  --background: #0b0f17;
+  --foreground: #e9eff7;
+  --surface: #131925;
+  --surface-2: #1a2230;
+  --border: #232c3a;
+
+  /* Brand colors stay vivid; lighten the "ink" tints for contrast on dark. */
+  --brand-blue: #4f8bf0;
+  --brand-blue-dark: #3a6fcc;
+  --brand-blue-50: #1a2b46;
+  --brand-blue-100: #24395a;
+  --brand-blue-ink: #7aa9f5;
+  --brand-yellow: #f4c869;
+  --brand-yellow-50: #2c2613;
+  --brand-amber: #f4c869;
+  --brand-red: #ef5b5b;
+  --brand-red-50: #2e1b1d;
+  --brand-red-ink: #f47a7a;
+  --brand-green: #79c050;
+  --brand-green-50: #1b2917;
+  --brand-green-ink: #8fce64;
+
+  /* Inverted neutral scale: same utility classes, dark-appropriate values. */
+  --cav-gray-50: #161d29;
+  --cav-gray-100: #1d2533;
+  --cav-gray-200: #283142;
+  --cav-gray-300: #38445a;
+  --cav-gray-400: #8493a8;
+  --cav-gray-500: #a6b4c6;
+  --cav-gray-600: #c2cdda;
+  --cav-gray-700: #d8e0ec;
+  --cav-gray-800: #eff4fb;
 }
 
 @theme inline {
@@ -52,6 +113,24 @@
 
   --color-cav-green: var(--cav-green);
 
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-blue-dark: var(--brand-blue-dark);
+  --color-brand-blue-50: var(--brand-blue-50);
+  --color-brand-blue-100: var(--brand-blue-100);
+  --color-brand-yellow: var(--brand-yellow);
+  --color-brand-yellow-50: var(--brand-yellow-50);
+  --color-brand-red: var(--brand-red);
+  --color-brand-red-50: var(--brand-red-50);
+  --color-brand-green: var(--brand-green);
+  --color-brand-green-50: var(--brand-green-50);
+  --color-brand-amber: var(--brand-amber);
+  --color-brand-blue-ink: var(--brand-blue-ink);
+  --color-brand-red-ink: var(--brand-red-ink);
+  --color-brand-green-ink: var(--brand-green-ink);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+
   --color-cav-gray-50: var(--cav-gray-50);
   --color-cav-gray-100: var(--cav-gray-100);
   --color-cav-gray-200: var(--cav-gray-200);
@@ -69,4 +148,96 @@
 body {
   background: var(--background);
   color: var(--foreground);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Smooth theme switch (but never animate motion-reduced users). */
+@media (prefers-reduced-motion: no-preference) {
+  body,
+  .theme-transition * {
+    transition: background-color 0.2s ease, border-color 0.2s ease,
+      color 0.2s ease;
+  }
+}
+
+/* ── Knowledge-base prose (markdown content) ── */
+.prose-cav {
+  color: var(--cav-gray-600);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+.prose-cav h2 {
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--cav-gray-800);
+  scroll-margin-top: 6rem;
+}
+.prose-cav h3 {
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--cav-gray-800);
+}
+.prose-cav p {
+  margin-bottom: 1.1rem;
+}
+.prose-cav ul {
+  margin-bottom: 1.1rem;
+  padding-left: 0.25rem;
+  list-style: none;
+}
+.prose-cav ul li {
+  position: relative;
+  padding-left: 1.6rem;
+  margin-bottom: 0.55rem;
+}
+.prose-cav ul li::before {
+  content: "";
+  position: absolute;
+  left: 0.15rem;
+  top: 0.65rem;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 9999px;
+  background: var(--brand-yellow);
+}
+.prose-cav ol {
+  margin-bottom: 1.1rem;
+  padding-left: 1.25rem;
+  list-style: decimal;
+}
+.prose-cav ol li {
+  margin-bottom: 0.55rem;
+  padding-left: 0.35rem;
+}
+.prose-cav strong {
+  color: var(--cav-gray-800);
+  font-weight: 600;
+}
+.prose-cav a {
+  color: var(--brand-blue-ink);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+@keyframes cav-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-up {
+  animation: cav-fade-up 0.4s ease both;
 }
