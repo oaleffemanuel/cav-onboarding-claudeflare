@@ -1,0 +1,3 @@
+# Cloudflare Pages edge redirect — root → Alta Vista Hub.
+# Handled at the edge (no flash, works without JS). Only matches exactly "/".
+/  /educador/  302
