@@ -47,15 +47,81 @@ function readCookie(request, name) {
   return null;
 }
 
+/**
+ * Resolve the password from whatever object the runtime actually populated.
+ *
+ * Canonical Pages Functions inject bindings/secrets on `context.env`. But the
+ * Workers autoconfig for this repo enabled `nodejs_compat`, and OpenNext-style
+ * build pipelines can surface vars on `process.env` instead. We read the
+ * canonical source first, then fall back, and report which one won so we can
+ * see the truth in production instead of guessing.
+ */
+function resolvePassword(env) {
+  if (env && typeof env.HUB_ACCESS_PASSWORD === "string" && env.HUB_ACCESS_PASSWORD) {
+    return { value: env.HUB_ACCESS_PASSWORD, source: "context.env" };
+  }
+  if (
+    typeof process !== "undefined" &&
+    process.env &&
+    typeof process.env.HUB_ACCESS_PASSWORD === "string" &&
+    process.env.HUB_ACCESS_PASSWORD
+  ) {
+    return { value: process.env.HUB_ACCESS_PASSWORD, source: "process.env" };
+  }
+  return { value: null, source: null };
+}
+
+/** TEMPORARY: build an env-introspection report (KEY NAMES only — never values). */
+function envDiagnostics(context, env) {
+  const lines = [];
+  try {
+    lines.push(`context keys: ${JSON.stringify(Object.keys(context || {}))}`);
+  } catch {}
+  try {
+    lines.push(`context.env keys: ${JSON.stringify(Object.keys(env || {}))}`);
+  } catch {
+    lines.push("context.env: <not enumerable / undefined>");
+  }
+  try {
+    if (typeof process !== "undefined" && process.env) {
+      lines.push(`process.env keys: ${JSON.stringify(Object.keys(process.env))}`);
+    } else {
+      lines.push("process.env: <undefined> (no nodejs_compat at runtime)");
+    }
+  } catch {
+    lines.push("process.env: <not accessible>");
+  }
+  lines.push(
+    `HUB_ACCESS_PASSWORD in context.env: ${!!(env && "HUB_ACCESS_PASSWORD" in env)}`,
+  );
+  lines.push(
+    `HUB_ACCESS_PASSWORD in process.env: ${
+      typeof process !== "undefined" && process.env
+        ? "HUB_ACCESS_PASSWORD" in process.env
+        : "n/a"
+    }`,
+  );
+  try {
+    lines.push(`CF_PAGES_BRANCH: ${(env && env.CF_PAGES_BRANCH) || "<none>"}`);
+  } catch {}
+  return lines.join("\n");
+}
+
 export async function onRequest(context) {
   const { request, env, next } = context;
   const url = new URL(request.url);
-  const password = env.HUB_ACCESS_PASSWORD;
+  const resolved = resolvePassword(env);
+  const password = resolved.value;
 
-  // If the gate is misconfigured (no env var), fail closed with a clear note
-  // for whoever set it up — never silently expose the Hub.
+  // ── TEMPORARY DEBUG — remove once the env binding is confirmed. ──
+  const diag = envDiagnostics(context, env);
+  console.log("[hub-gate]\n" + diag + `\nresolved source: ${resolved.source}`);
+  // ── END TEMPORARY DEBUG ──
+
+  // If the gate is misconfigured (no env var on ANY source), fail closed and
+  // render the live introspection so the real binding state is visible.
   if (!password) {
-    return htmlResponse(loginPage({ configError: true }), 503);
+    return htmlResponse(loginPage({ configError: true, diag }), 503);
   }
 
   const expected = await tokenFor(password);
@@ -98,13 +164,25 @@ function htmlResponse(body, status) {
   });
 }
 
+/** Escape text for safe insertion into HTML. */
+function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
 /** Self-contained login page in the Alta Vista Hub visual identity. */
-function loginPage({ error = false, configError = false } = {}) {
+function loginPage({ error = false, configError = false, diag = "" } = {}) {
   const errorBanner = error
     ? `<p class="msg error" role="alert">Senha incorreta. Tente novamente.</p>`
     : "";
+  const diagBlock =
+    configError && diag
+      ? `<pre style="text-align:left;font-size:11px;line-height:1.45;background:#0b0f17;color:#9fe6a0;padding:12px;border-radius:8px;overflow:auto;margin:0 0 14px;">${escapeHtml(diag)}</pre>`
+      : "";
   const configBanner = configError
-    ? `<p class="msg error" role="alert">O acesso ainda não foi configurado. Defina a variável <code>HUB_ACCESS_PASSWORD</code> no Cloudflare Pages.</p>`
+    ? `<p class="msg error" role="alert">O acesso ainda não foi configurado. Defina a variável <code>HUB_ACCESS_PASSWORD</code> no Cloudflare Pages.</p>${diagBlock}`
     : "";
   const disabled = configError ? "disabled" : "";
 
@@ -160,10 +238,9 @@ function loginPage({ error = false, configError = false } = {}) {
   }
   .body { padding: 34px 30px 30px; text-align: center; }
   .logo { margin: 0 auto 14px; display: block; }
-  .wordmark { font-weight: 800; letter-spacing: 0.5px; line-height: 1; }
-  .wordmark .arraia { display: block; font-size: 14px; color: var(--brand-yellow); text-transform: uppercase; letter-spacing: 3px; }
-  .wordmark .alta { display: block; font-size: 30px; color: var(--brand-blue); }
-  h1 { font-size: 17px; margin: 18px 0 4px; color: var(--ink); }
+  .wordmark { font-weight: 800; letter-spacing: 0.3px; line-height: 1; }
+  .wordmark .hub { display: block; font-size: 27px; color: var(--brand-blue); }
+  h1 { font-size: 16px; margin: 16px 0 4px; color: var(--ink); }
   .sub { margin: 0 0 22px; font-size: 13.5px; color: var(--muted); }
   form { text-align: left; }
   label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--ink); }
@@ -218,11 +295,10 @@ function loginPage({ error = false, configError = false } = {}) {
         <circle cx="32" cy="52" r="2.4" fill="#f4b63f"/>
       </svg>
       <div class="wordmark">
-        <span class="arraia">Arraiá</span>
-        <span class="alta">Alta Vista</span>
+        <span class="hub">Alta Vista Hub</span>
       </div>
-      <h1>Acesso restrito</h1>
-      <p class="sub">Informe a senha para acessar o Hub.</p>
+      <h1>Área do Educador</h1>
+      <p class="sub">Informe a senha para continuar.</p>
       ${configBanner}
       ${errorBanner}
       <form method="POST" action="${AUTH_PATH}" autocomplete="off">
