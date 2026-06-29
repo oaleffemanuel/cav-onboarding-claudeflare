@@ -107,9 +107,23 @@ function envDiagnostics(context, env) {
   return lines.join("\n");
 }
 
+// Public brand assets the login screen needs — served WITHOUT auth so the
+// gate itself can show the Alta Vista favicon and logo. These are public
+// images only; nothing sensitive is exposed before login.
+const PUBLIC_ASSETS = new Set([
+  "/favicon.ico",
+  "/hub-logo.png",
+]);
+
 export async function onRequest(context) {
   const { request, env, next } = context;
   const url = new URL(request.url);
+
+  // Let the login screen's own branding assets through before any auth check.
+  if (request.method === "GET" && PUBLIC_ASSETS.has(url.pathname)) {
+    return next();
+  }
+
   const resolved = resolvePassword(env);
   const password = resolved.value;
 
@@ -192,7 +206,9 @@ function loginPage({ error = false, configError = false, diag = "" } = {}) {
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="noindex, nofollow" />
-<title>Alta Vista Hub — Acesso</title>
+<title>Alta Vista Hub</title>
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="apple-touch-icon" href="/hub-logo.png" />
 <style>
   :root {
     --brand-blue: #1e4ea8;
@@ -237,7 +253,7 @@ function loginPage({ error = false, configError = false, diag = "" } = {}) {
     );
   }
   .body { padding: 34px 30px 30px; text-align: center; }
-  .logo { margin: 0 auto 14px; display: block; }
+  .logo { margin: 0 auto 14px; display: block; width: 72px; height: 72px; object-fit: contain; }
   .wordmark { font-weight: 800; letter-spacing: 0.3px; line-height: 1; }
   .wordmark .hub { display: block; font-size: 27px; color: var(--brand-blue); }
   h1 { font-size: 16px; margin: 16px 0 4px; color: var(--ink); }
@@ -289,11 +305,7 @@ function loginPage({ error = false, configError = false, diag = "" } = {}) {
   <main class="card">
     <div class="bunting"></div>
     <div class="body">
-      <svg class="logo" width="64" height="64" viewBox="0 0 64 64" fill="none" aria-hidden="true">
-        <rect x="3" y="3" width="58" height="58" rx="14" fill="#1e4ea8"/>
-        <path d="M32 16 L45 46 H37 L34.6 40 H29.4 L27 46 H19 Z M30.9 34 H33.1 L32 30.6 Z" fill="#ffffff"/>
-        <circle cx="32" cy="52" r="2.4" fill="#f4b63f"/>
-      </svg>
+      <img class="logo" src="/hub-logo.png" width="72" height="72" alt="Colégio Alta Vista" />
       <div class="wordmark">
         <span class="hub">Alta Vista Hub</span>
       </div>
