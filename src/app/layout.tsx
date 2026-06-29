@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
 
@@ -7,10 +7,32 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
+const SITE_TITLE = "Alta Vista Hub";
+const SITE_DESCRIPTION = "Portal interno do Colégio Alta Vista.";
+
 export const metadata: Metadata = {
-  title: "Colégio Alta Vista — Onboarding",
-  description:
-    "Portal de boas-vindas para pais e colaboradores do Colégio Alta Vista.",
+  metadataBase: new URL("https://hub.colegioaltavista.com.br"),
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_TITLE,
+  // favicon.ico, icon.png, apple-icon.png, opengraph-image.png and
+  // twitter-image.png are picked up automatically from the app/ folder.
+  openGraph: {
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    siteName: SITE_TITLE,
+    locale: "pt_BR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#1e4ea8",
 };
 
 // Runs before paint to set the theme class and avoid a flash of the wrong theme.

@@ -3,9 +3,8 @@ import TopNav from "@/components/educador/TopNav";
 import EducadorFooter from "@/components/educador/EducadorFooter";
 
 export const metadata: Metadata = {
-  title: "Alta Vista Hub — Área do Educador",
-  description:
-    "A central de conhecimento do Colégio Alta Vista para colaboradores encontrarem orientações, documentos, rotinas, contatos e ferramentas em um só lugar.",
+  title: "Alta Vista Hub",
+  description: "Portal interno do Colégio Alta Vista.",
 };
 
 export default function EducadorLayout({
