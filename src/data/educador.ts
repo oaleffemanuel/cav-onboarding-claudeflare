@@ -213,10 +213,10 @@ const AWAIT = PLACEHOLDER.awaiting;
 export const contacts: Contact[] = [
   { area: "Recursos Humanos", person: "Renata Resende", role: "Recursos Humanos / Depto. Pessoal", email: "renata.resende@colegioaltavista.com.br", phone: AWAIT, notes: "Admissão, benefícios, atestados e folha de pagamento.", tone: "red" },
   { area: "Secretaria", person: "Sirley Silva", role: "Secretária Escolar", email: AWAIT, phone: AWAIT, notes: "Documentos escolares, matrículas e declarações.", tone: "yellow" },
-  { area: "Coordenação Infantil", person: "Mariana Poteriza", role: "Coordenação — Educação Infantil (manhã)", email: AWAIT, phone: AWAIT, notes: "Período da tarde: Cecília Rameh. Assuntos pedagógicos da Infantil.", tone: "green" },
-  { area: "Coordenação Fundamental", person: "Priscila Coutinho", role: "Coordenação — Ensino Fundamental", email: AWAIT, phone: AWAIT, notes: "Assuntos pedagógicos do Ensino Fundamental.", tone: "blue" },
+  { area: "Coordenação Infantil", person: "Mariana Potenza", role: "Coordenação — Educação Infantil (manhã)", email: AWAIT, phone: AWAIT, notes: "Período da tarde: Cecília Rameh. Assuntos pedagógicos da Infantil.", tone: "green" },
+  { area: "Coordenação Fundamental", person: "Anne Karenine", role: "Coordenação — Ensino Fundamental", email: AWAIT, phone: AWAIT, notes: "Assuntos pedagógicos do Ensino Fundamental.", tone: "blue" },
   { area: "Coordenação de Inglês", person: "Anne Karenine", role: "Coordenação — Inglês", email: AWAIT, phone: AWAIT, notes: "Programa bilíngue e assuntos do inglês.", tone: "yellow" },
-  { area: "Administrativo-Financeiro", person: "Berenice Sanna", role: "Coordenação Adm.-Financeira", email: AWAIT, phone: AWAIT, notes: "Pagamentos, contas e questões financeiras.", tone: "red" },
+  { area: "Administrativo-Financeiro", person: "Roberta Bueno", role: "Coordenação Adm.-Financeira", email: AWAIT, phone: AWAIT, notes: "Pagamentos, contas e questões financeiras.", tone: "red" },
   { area: "Comunicação & Marketing", person: "Patrícia Sanches", role: "Comunicação & Marketing", email: AWAIT, phone: AWAIT, notes: "Comunicação institucional e divulgação.", tone: "green" },
 ];
 
