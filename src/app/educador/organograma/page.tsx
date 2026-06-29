@@ -17,7 +17,7 @@ const dot: Record<Tone, string> = {
   green: "bg-brand-green",
 };
 
-const presidency: Node = { area: "Presidência — Virtus / Colégio Alta Vista", person: "Otávio de Mello Castro", tone: "blue" };
+const presidency: Node = { area: "Presidência da Associação de Pais", person: "Otávio de Mello Castro", tone: "blue" };
 const direction: Node = { area: "Direção Geral", person: "Virginia Aro", tone: "blue" };
 
 const leadership: Node[] = [
@@ -28,15 +28,15 @@ const leadership: Node[] = [
 ];
 
 const pedagogical: Node[] = [
-  { area: "Coord. Infantil (Manhã)", person: "Mariana Poteriza", tone: "yellow" },
+  { area: "Coord. Infantil (Manhã)", person: "Mariana Potenza", tone: "yellow" },
   { area: "Coord. Infantil (Tarde)", person: "Cecília Rameh", tone: "yellow" },
-  { area: "Coord. Fundamental", person: "Priscila Coutinho", tone: "green" },
+  { area: "Coord. Fundamental", person: "Anne Karenine", tone: "green" },
   { area: "Coord. de Inglês", person: "Anne Karenine", tone: "blue" },
 ];
 
 const administrative: Node[] = [
   { area: "Recursos Humanos", person: "Renata Resende", tone: "blue" },
-  { area: "Coord. Adm.-Financeiro", person: "Berenice Sanna", tone: "red" },
+  { area: "Coord. Adm.-Financeiro", person: "Roberta Bueno", tone: "red" },
   { area: "Analista Adm.-Financeiro", person: "Gustavo Neves", tone: "green" },
   { area: "Contas a Receber", person: "Giselle Iara", tone: "yellow" },
 ];

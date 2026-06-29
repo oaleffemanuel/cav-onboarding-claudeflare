@@ -14,7 +14,7 @@ const onThisPage = [
 const checklist = [
   "Receber e ativar o e-mail institucional (Outlook / Microsoft 365)",
   "Configurar o acesso ao ClassApp",
-  "Entrar nos canais oficiais de comunicação (e-mail institucional, grupos da equipe, canais de avisos e site da escola)",
+  "Entrar nos canais oficiais de comunicação (e-mail institucional, canais de avisos e site da escola)",
   "Assinar os documentos de admissão com o RH",
   "Retirar o crachá de identificação",
   "Conhecer a equipe e a coordenação da sua etapa",

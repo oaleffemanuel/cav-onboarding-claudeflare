@@ -38,7 +38,9 @@ export default function FerramentasPage() {
 
       <ContentCard title="Como conseguir seus acessos">
         <Markdown
-          content={`1. No seu primeiro dia, o **RH** solicita a criação do e-mail institucional e dos acessos.
+          content={`Os acessos **não são iguais para todos**: cada pessoa recebe as contas de acordo com a **sua função**. Por isso, **nem todo colaborador recebe todas as contas** — **estagiários e auxiliares podem não receber** alguns acessos.
+
+1. No seu primeiro dia, o **RH** providencia as contas e os acessos **adequados à sua função**.
 2. Você recebe uma **senha provisória** — troque-a no primeiro login.
 3. Para o Sistema Acadêmico, a **coordenação** libera seu perfil.
 4. Problemas de acesso? Procure a equipe de **Tecnologia** pela [Central de Contatos](/educador/contatos).

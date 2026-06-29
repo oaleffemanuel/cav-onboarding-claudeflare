@@ -211,7 +211,6 @@ export interface Contact {
 // E-mails/telefones por setor: "Aguardando informações" (apenas o RH/DP tem e-mail documentado).
 const AWAIT = PLACEHOLDER.awaiting;
 export const contacts: Contact[] = [
-  { area: "Direção Geral", person: "Virginia Aro", role: "Diretora Geral", email: AWAIT, phone: AWAIT, notes: "Assuntos institucionais e estratégicos.", tone: "blue" },
   { area: "Recursos Humanos", person: "Renata Resende", role: "Recursos Humanos / Depto. Pessoal", email: "renata.resende@colegioaltavista.com.br", phone: AWAIT, notes: "Admissão, benefícios, atestados e folha de pagamento.", tone: "red" },
   { area: "Secretaria", person: "Sirley Silva", role: "Secretária Escolar", email: AWAIT, phone: AWAIT, notes: "Documentos escolares, matrículas e declarações.", tone: "yellow" },
   { area: "Coordenação Infantil", person: "Mariana Poteriza", role: "Coordenação — Educação Infantil (manhã)", email: AWAIT, phone: AWAIT, notes: "Período da tarde: Cecília Rameh. Assuntos pedagógicos da Infantil.", tone: "green" },
@@ -378,12 +377,14 @@ export const manualModules: ManualModule[] = [
     title: "E-mail e Sistemas do Colégio",
     summary: "E-mail institucional e uso responsável dos sistemas.",
     keyPoints: [
-      "E-mail institucional fornecido na admissão",
+      "Política de e-mail ainda em definição",
+      "Estagiários e auxiliares geralmente não recebem e-mail institucional",
       "Proibido compartilhar senhas",
-      "Usar login de outro educador é infração grave",
     ],
     tone: "blue",
-    details: `- Cada educador recebe, na admissão, as orientações de acesso ao **e-mail institucional**.
+    details: `- A **política de e-mail institucional ainda está sendo finalizada** — os detalhes serão confirmados com a escola.
+- No momento, **estagiários e auxiliares geralmente não recebem** conta de e-mail institucional.
+- Quando fornecido, o acesso ao **e-mail institucional** é orientado na admissão.
 - É **proibido compartilhar senhas** de e-mail e sistemas.
 - Sem acesso a alguma informação? Solicite atualização do seu **perfil** ao gestor imediato.
 - Usar o sistema com login de outro educador é **grave infração** ao Código de Ética.`,
@@ -494,11 +495,9 @@ export const linkGroups: LinkGroup[] = [
   {
     id: "comunicacao-interna",
     title: "Comunicação Interna",
-    description: "Grupos e canais oficiais da equipe. Links a preencher.",
+    description: "Precisa de ajuda ou de acesso a um canal interno? Veja com quem falar.",
     items: [
-      { label: "Grupos de Educadores", description: "Canais do corpo docente.", status: "A preencher", tone: "blue" },
-      { label: "Grupos de Coordenação", description: "Canais das coordenações pedagógicas.", status: "A preencher", tone: "green" },
-      { label: "Grupos Administrativos", description: "Canais das áreas administrativas e de apoio.", status: "A preencher", tone: "yellow" },
+      { label: "Central de Contatos", description: "Quem procurar para cada assunto e onde pedir ajuda.", href: "/educador/contatos", status: "Confirmado", tone: "blue" },
     ],
   },
 ];

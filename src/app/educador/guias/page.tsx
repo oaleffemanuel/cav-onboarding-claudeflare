@@ -33,6 +33,16 @@ export default function GuiasPage() {
         })}
       </div>
 
+      <ContentCard title="Nossa identidade">
+        <p className="text-[15px] leading-relaxed text-cav-gray-600">
+          O Colégio Alta Vista nasceu da associação de famílias e educadores em
+          prol de uma educação de qualidade e personalizada, de identidade cristã
+          católica. É parceiro da Solar Colégios (Fomento Centros de Enseñanza),
+          rede presente em diversos estados, unindo protagonismo das famílias,
+          educação integral e excelência acadêmica.
+        </p>
+      </ContentCard>
+
       {/* Pilares pedagógicos */}
       <section className="mt-12">
         <h2 className="text-xl font-bold tracking-tight text-cav-gray-800">
@@ -138,15 +148,6 @@ export default function GuiasPage() {
         </div>
       </section>
 
-      <ContentCard title="Nossa identidade">
-        <p className="text-[15px] leading-relaxed text-cav-gray-600">
-          O Colégio Alta Vista nasceu da associação de famílias e educadores em
-          prol de uma educação de qualidade e personalizada, de identidade cristã
-          católica. É parceiro da Solar Colégios (Fomento Centros de Enseñanza),
-          rede presente em diversos estados, unindo protagonismo das famílias,
-          educação integral e excelência acadêmica.
-        </p>
-      </ContentCard>
     </PageContainer>
   );
 }

@@ -10,7 +10,7 @@ export default function LinksPage() {
       crumbs={[{ label: "Links Úteis" }]}
       eyebrow="Links Úteis"
       title="Acessos rápidos"
-      intro="Plataformas, canais institucionais e grupos de comunicação interna. Itens sem link confirmado aparecem como “A preencher” — serão validados com a escola."
+      intro="Plataformas, canais institucionais e onde pedir ajuda. Itens sem link confirmado aparecem como “A preencher” — serão validados com a escola."
     >
       <div className="space-y-10">
         {linkGroups.map((group) => (
