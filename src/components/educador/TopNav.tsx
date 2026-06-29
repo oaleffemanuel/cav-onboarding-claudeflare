@@ -4,13 +4,44 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Search, Menu, X } from "lucide-react";
-import { educadorNav, homeCards } from "@/data/educador";
 import BrandLogo from "./BrandLogo";
+import NavDropdown from "./NavDropdown";
 import SearchModal from "./SearchModal";
 import ThemeToggle from "./ThemeToggle";
 
-// Section icon lookup (shared with the home cards) for the mobile drawer.
-const iconFor = Object.fromEntries(homeCards.map((c) => [c.href, c.icon]));
+// Grouped information architecture for the desktop navbar (and mobile drawer).
+type NavEntry =
+  | { kind: "link"; href: string; label: string }
+  | { kind: "group"; label: string; items: { href: string; label: string }[] };
+
+const NAV: NavEntry[] = [
+  { kind: "link", href: "/educador/comece-aqui", label: "Comece Aqui" },
+  {
+    kind: "group",
+    label: "Documentação",
+    items: [
+      { href: "/educador/guias", label: "Guias" },
+      { href: "/educador/manual", label: "Manual do Educador" },
+    ],
+  },
+  {
+    kind: "group",
+    label: "Operação",
+    items: [
+      { href: "/educador/ferramentas", label: "Ferramentas" },
+      { href: "/educador/rotinas", label: "Rotinas Internas" },
+    ],
+  },
+  {
+    kind: "group",
+    label: "Institucional",
+    items: [
+      { href: "/educador/organograma", label: "Organograma" },
+      { href: "/educador/contatos", label: "Contatos" },
+    ],
+  },
+  { kind: "link", href: "/educador/faq", label: "FAQ" },
+];
 
 export default function TopNav() {
   const pathname = usePathname();
@@ -55,25 +86,33 @@ export default function TopNav() {
   return (
     <>
       <header className="sticky top-0 z-50 border-b border-border bg-surface/80 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
           <BrandLogo compact />
 
-          {/* Desktop nav */}
-          <nav className="ml-1 hidden flex-1 items-center justify-center gap-0.5 xl:flex">
-            {educadorNav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                aria-current={isActive(item.href) ? "page" : undefined}
-                className={`rounded-lg px-3 py-2 text-[13.5px] font-medium transition-colors ${
-                  isActive(item.href)
-                    ? "bg-brand-blue-50 text-brand-blue-ink"
-                    : "text-cav-gray-600 hover:bg-cav-gray-50 hover:text-cav-gray-800"
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
+          {/* Desktop nav — grouped, single line */}
+          <nav className="hidden flex-1 items-center justify-center gap-1 xl:flex">
+            {NAV.map((entry) =>
+              entry.kind === "link" ? (
+                <Link
+                  key={entry.href}
+                  href={entry.href}
+                  aria-current={isActive(entry.href) ? "page" : undefined}
+                  className={`whitespace-nowrap rounded-lg px-3 py-2 text-[13.5px] font-medium transition-colors ${
+                    isActive(entry.href)
+                      ? "bg-brand-blue-50 text-brand-blue-ink"
+                      : "text-cav-gray-600 hover:bg-cav-gray-50 hover:text-cav-gray-800"
+                  }`}
+                >
+                  {entry.label}
+                </Link>
+              ) : (
+                <NavDropdown
+                  key={entry.label}
+                  label={entry.label}
+                  items={entry.items}
+                />
+              ),
+            )}
           </nav>
 
           <div className="ml-auto flex items-center gap-2">
@@ -110,33 +149,48 @@ export default function TopNav() {
           </div>
         </div>
 
-        {/* Mobile drawer */}
+        {/* Mobile drawer — same groups, expanded as labelled sections */}
         {mobileOpen && (
           <div className="xl:hidden">
-            <div className="animate-fade-up max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-border bg-surface px-4 pb-8 pt-3 shadow-lg">
-              <nav className="grid grid-cols-1 gap-1 sm:grid-cols-2">
-                {educadorNav.map((item) => {
-                  const Icon = iconFor[item.href];
-                  const active = isActive(item.href);
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      aria-current={active ? "page" : undefined}
-                      className={`flex items-center gap-3 rounded-xl px-4 py-3 text-[15px] font-medium transition-colors ${
-                        active
-                          ? "bg-brand-blue-50 text-brand-blue-ink"
-                          : "text-cav-gray-700 hover:bg-cav-gray-50"
-                      }`}
-                    >
-                      {Icon ? (
-                        <Icon className="h-[18px] w-[18px] shrink-0 opacity-80" strokeWidth={2} />
-                      ) : null}
-                      {item.label}
-                    </Link>
-                  );
-                })}
-              </nav>
+            <div className="animate-fade-up max-h-[calc(100vh-4rem)] space-y-5 overflow-y-auto border-t border-border bg-surface px-4 pb-8 pt-4 shadow-lg">
+              {NAV.map((entry) =>
+                entry.kind === "link" ? (
+                  <Link
+                    key={entry.href}
+                    href={entry.href}
+                    aria-current={isActive(entry.href) ? "page" : undefined}
+                    className={`block rounded-xl px-4 py-3 text-[15px] font-medium transition-colors ${
+                      isActive(entry.href)
+                        ? "bg-brand-blue-50 text-brand-blue-ink"
+                        : "text-cav-gray-700 hover:bg-cav-gray-50"
+                    }`}
+                  >
+                    {entry.label}
+                  </Link>
+                ) : (
+                  <div key={entry.label}>
+                    <p className="px-4 pb-1.5 text-xs font-semibold uppercase tracking-wide text-cav-gray-400">
+                      {entry.label}
+                    </p>
+                    <div className="space-y-1">
+                      {entry.items.map((it) => (
+                        <Link
+                          key={it.href}
+                          href={it.href}
+                          aria-current={isActive(it.href) ? "page" : undefined}
+                          className={`block rounded-xl px-4 py-3 text-[15px] font-medium transition-colors ${
+                            isActive(it.href)
+                              ? "bg-brand-blue-50 text-brand-blue-ink"
+                              : "text-cav-gray-700 hover:bg-cav-gray-50"
+                          }`}
+                        >
+                          {it.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                ),
+              )}
             </div>
           </div>
         )}
