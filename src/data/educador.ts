@@ -517,38 +517,62 @@ export const institutionalChannels: InstitutionalChannel[] = [
   { label: "Canal de Comunicação Interna", value: PLACEHOLDER.awaiting, kind: "internal" },
 ];
 
-// ── Global search index ──────────────────────────────────────────────
+// ── Global search index (command palette) ───────────────────────────
+// `category` is the group shown in the palette; `description` is an optional
+// one-line hint; `external: true` opens the href in a new tab.
+export type SearchCategory =
+  | "Início"
+  | "Documentação"
+  | "Operação"
+  | "Institucional"
+  | "Ferramentas externas";
+
 export interface SearchEntry {
   title: string;
-  section: string;
+  category: SearchCategory;
+  description?: string;
   href: string;
   keywords: string;
+  external?: boolean;
 }
 
 const baseSearchIndex: SearchEntry[] = [
-  { title: "Comece Aqui", section: "Início", href: "/educador/comece-aqui", keywords: "primeiros passos novo colaborador boas-vindas onboarding checklist" },
-  { title: "Bem-vindo ao Alta Vista", section: "Comece Aqui", href: "/educador/comece-aqui#bem-vindo", keywords: "boas vindas mensagem cultura família" },
-  { title: "Primeiros Passos", section: "Comece Aqui", href: "/educador/comece-aqui#primeiros-passos", keywords: "acessos email senha classapp primeiro dia" },
-  { title: "Checklist do Novo Colaborador", section: "Comece Aqui", href: "/educador/comece-aqui#checklist", keywords: "checklist tarefas documentos crachá" },
-  { title: "Guias", section: "Início", href: "/educador/guias", keywords: "valores missão visão proposta pedagógica cultura" },
-  { title: "Manual do Educador", section: "Início", href: "/educador/manual", keywords: "normas orientações documentos oficiais regras conduta" },
-  { title: "Ferramentas", section: "Início", href: "/educador/ferramentas", keywords: "classapp google workspace sistemas internos acessos ti" },
-  { title: "Rotinas Internas", section: "Início", href: "/educador/rotinas", keywords: "preceptoria sondagem formação pais conselho de classe eventos glossário" },
-  { title: "O que é Preceptoria?", section: "Rotinas Internas", href: "/educador/rotinas#preceptoria", keywords: "acompanhamento individual formativo aluno" },
-  { title: "O que é Sondagem?", section: "Rotinas Internas", href: "/educador/rotinas#sondagem", keywords: "avaliação diagnóstica alfabetização" },
-  { title: "O que é Formação de Pais?", section: "Rotinas Internas", href: "/educador/rotinas#formacao-de-pais", keywords: "encontros família parceria" },
-  { title: "O que é Conselho de Classe?", section: "Rotinas Internas", href: "/educador/rotinas#conselho-de-classe", keywords: "reunião pedagógica turma desempenho" },
-  { title: "Glossário Interno", section: "Rotinas Internas", href: "/educador/rotinas#glossario-interno", keywords: "termos siglas vocabulário" },
-  { title: "Links Úteis", section: "Início", href: "/educador/links", keywords: "atalhos plataformas drive calendário sistema" },
-  { title: "Organograma", section: "Início", href: "/educador/organograma", keywords: "estrutura organizacional hierarquia direção coordenação" },
-  { title: "Central de Contatos", section: "Início", href: "/educador/contatos", keywords: "rh secretaria financeiro coordenação direção tecnologia telefone email" },
-  { title: "FAQ", section: "Início", href: "/educador/faq", keywords: "perguntas frequentes dúvidas ajuda" },
+  { title: "Comece Aqui", category: "Início", description: "Primeiros passos e checklist do novo colaborador.", href: "/educador/comece-aqui", keywords: "primeiros passos novo colaborador boas-vindas onboarding checklist" },
+  { title: "Bem-vindo ao Alta Vista", category: "Início", href: "/educador/comece-aqui#bem-vindo", keywords: "boas vindas mensagem cultura família" },
+  { title: "Primeiros Passos", category: "Início", href: "/educador/comece-aqui#primeiros-passos", keywords: "acessos email senha classapp primeiro dia" },
+  { title: "Checklist do Novo Colaborador", category: "Início", href: "/educador/comece-aqui#checklist", keywords: "checklist tarefas documentos crachá" },
+  { title: "Guias", category: "Documentação", description: "Valores, missão e proposta pedagógica.", href: "/educador/guias", keywords: "valores missão visão proposta pedagógica cultura" },
+  { title: "Manual do Educador", category: "Documentação", description: "Normas e orientações oficiais.", href: "/educador/manual", keywords: "normas orientações documentos oficiais regras conduta" },
+  { title: "FAQ", category: "Documentação", description: "Perguntas frequentes e dúvidas comuns.", href: "/educador/faq", keywords: "perguntas frequentes dúvidas ajuda" },
+  { title: "Ferramentas", category: "Operação", description: "Outlook, Microsoft 365 e sistemas internos.", href: "/educador/ferramentas", keywords: "classapp microsoft 365 outlook sistemas internos acessos ti" },
+  { title: "Rotinas Internas", category: "Operação", description: "Preceptoria, sondagem, conselho de classe e glossário.", href: "/educador/rotinas", keywords: "preceptoria sondagem formação pais conselho de classe eventos glossário" },
+  { title: "O que é Preceptoria?", category: "Operação", href: "/educador/rotinas#preceptoria", keywords: "acompanhamento individual formativo aluno" },
+  { title: "O que é Sondagem?", category: "Operação", href: "/educador/rotinas#sondagem", keywords: "avaliação diagnóstica alfabetização" },
+  { title: "O que é Formação de Pais?", category: "Operação", href: "/educador/rotinas#formacao-de-pais", keywords: "encontros família parceria" },
+  { title: "O que é Conselho de Classe?", category: "Operação", href: "/educador/rotinas#conselho-de-classe", keywords: "reunião pedagógica turma desempenho" },
+  { title: "Glossário Interno", category: "Operação", href: "/educador/rotinas#glossario-interno", keywords: "termos siglas vocabulário" },
+  { title: "Links Úteis", category: "Operação", description: "Atalhos para plataformas e documentos.", href: "/educador/links", keywords: "atalhos plataformas drive calendário sistema" },
+  { title: "Organograma", category: "Institucional", description: "Estrutura organizacional do colégio.", href: "/educador/organograma", keywords: "estrutura organizacional hierarquia direção coordenação" },
+  { title: "Central de Contatos", category: "Institucional", description: "Quem procurar para cada assunto.", href: "/educador/contatos", keywords: "rh secretaria financeiro coordenação direção tecnologia telefone email" },
 ];
 
-// Compose the full index from base sections + manual modules + contacts + FAQ.
+// External tools (Microsoft 365 ecosystem + ClassApp + ActiveSoft).
+// Microsoft URLs are canonical sign-in pages. ClassApp/ActiveSoft URLs are the
+// public portals — TODO: confirm the school's exact URLs and replace below.
+export const externalTools: SearchEntry[] = [
+  { title: "Outlook", category: "Ferramentas externas", description: "E-mail institucional (Microsoft 365).", href: "https://outlook.office.com/mail/", keywords: "email outlook microsoft 365 correio mensagens", external: true },
+  { title: "Microsoft Teams", category: "Ferramentas externas", description: "Reuniões e comunicação interna.", href: "https://teams.microsoft.com/", keywords: "teams reunião chamada vídeo chat comunicação", external: true },
+  { title: "OneDrive", category: "Ferramentas externas", description: "Arquivos e documentos na nuvem.", href: "https://www.microsoft365.com/launch/onedrive", keywords: "onedrive arquivos nuvem documentos armazenamento drive", external: true },
+  { title: "Microsoft Calendar", category: "Ferramentas externas", description: "Agenda e compromissos (Outlook).", href: "https://outlook.office.com/calendar/", keywords: "calendário agenda compromissos eventos outlook", external: true },
+  { title: "ClassApp", category: "Ferramentas externas", description: "Comunicação com as famílias.", href: "https://web.classapp.com.br/", keywords: "classapp comunicação famílias mensagens responsáveis", external: true },
+  { title: "ActiveSoft", category: "Ferramentas externas", description: "Sistema acadêmico e financeiro (ERP).", href: "https://www.activesoft.com.br/", keywords: "activesoft sponte erp sistema acadêmico financeiro secretaria matrícula", external: true },
+];
+
+// Compose the full index from base sections + manual modules + contacts + FAQ + tools.
 export const searchIndex: SearchEntry[] = [
   ...baseSearchIndex,
-  ...manualModules.map((m) => ({ title: m.title, section: "Manual do Educador", href: `/educador/manual#${m.id}`, keywords: `${m.summary} ${m.keyPoints.join(" ")}` })),
-  ...contacts.map((c) => ({ title: `${c.area}`, section: "Central de Contatos", href: "/educador/contatos", keywords: `${c.role} ${c.notes} contato` })),
-  ...faqs.map((f) => ({ title: f.question, section: "FAQ", href: "/educador/faq", keywords: `${f.category} ${f.answer}` })),
+  ...manualModules.map((m): SearchEntry => ({ title: m.title, category: "Documentação", description: m.summary, href: `/educador/manual#${m.id}`, keywords: `${m.summary} ${m.keyPoints.join(" ")}` })),
+  ...contacts.map((c): SearchEntry => ({ title: c.area, category: "Institucional", description: c.role, href: "/educador/contatos", keywords: `${c.person} ${c.role} ${c.notes} contato` })),
+  ...faqs.map((f): SearchEntry => ({ title: f.question, category: "Documentação", description: f.category, href: "/educador/faq", keywords: `${f.category} ${f.answer}` })),
+  ...externalTools,
 ];
